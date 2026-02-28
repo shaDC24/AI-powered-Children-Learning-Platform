@@ -1,0 +1,2553 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kids Learning Platform - Class 2 Fun!</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Comic+Neue:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+      }
+
+      :root {
+        /* Child-Friendly "Candy & Sunshine" Palette */
+        --primary-color: #ff9f43; /* Bright Orange */
+        --secondary-color: #54a0ff; /* Sky Blue */
+        --accent-color: #feca57; /* Sunshine Yellow */
+        --success-color: #1dd1a1; /* Mint Green */
+        --warning-color: #ff6b6b; /* Soft Red */
+        --purple: #5f27cd;
+        --pink: #ff9ff3;
+
+        --bg-gradient: linear-gradient(180deg, #e0f7fa 0%, #e1f5fe 100%);
+        --card-bg: #ffffff;
+        --text-dark: #222f3e;
+        --text-light: #576574;
+        --shadow: 0 8px 0px rgba(0, 0, 0, 0.1); /* Chunky "Toy" Shadow */
+        --shadow-hover: 0 12px 0px rgba(0, 0, 0, 0.15);
+      }
+
+      body {
+        font-family: "Comic Neue", cursive;
+        background: var(--bg-gradient);
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--text-dark);
+      }
+
+      .device-frame {
+        max-width: 420px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 40px;
+        border: 8px solid #333; /* Thick border for tablet feel */
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        position: relative;
+        padding: 20px;
+        min-height: 90vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .status-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        font-size: 12px;
+        color: var(--text-light);
+        margin-bottom: 10px;
+      }
+
+      /* --- ANIMATIONS --- */
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-5px);
+        }
+      }
+      @keyframes pop {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- SCREENS --- */
+      .auth-screen,
+      .parent-screen,
+      .student-screen {
+        display: none;
+        height: 100%;
+        overflow-y: auto;
+        padding-bottom: 20px;
+        animation: fadeIn 0.4s ease;
+      }
+      .auth-screen.active,
+      .parent-screen.active,
+      .student-screen.active {
+        display: block;
+      }
+
+      /* --- UI ELEMENTS --- */
+      .logo {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
+        border-radius: 30px;
+        margin: 20px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        box-shadow: 0 10px 0px rgba(0, 0, 0, 0.1);
+        animation: bounce 2s infinite;
+      }
+
+      .app-title {
+        font-family: "Fredoka", sans-serif;
+        font-size: 26px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+        text-align: center;
+      }
+      .app-subtitle {
+        color: var(--text-light);
+        margin-bottom: 30px;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .section-title {
+        font-family: "Fredoka";
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: var(--text-dark);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 700;
+        font-size: 14px;
+        font-family: "Fredoka";
+      }
+      .form-input,
+      .form-select {
+        width: 100%;
+        padding: 15px;
+        border: 3px solid #e0e0e0;
+        border-radius: 15px;
+        font-size: 15px;
+        font-family: "Comic Neue", cursive;
+        transition: 0.3s;
+      }
+      .form-input:focus {
+        outline: none;
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 4px rgba(84, 160, 255, 0.2);
+      }
+
+      /* --- BUTTONS --- */
+      .btn-primary {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 20px;
+        background: var(--primary-color);
+        color: white;
+        font-weight: 700;
+        font-size: 18px;
+        cursor: pointer;
+        box-shadow: 0 5px 0px #e67e22;
+        margin-top: 10px;
+        font-family: "Fredoka";
+        transition: all 0.2s;
+      }
+      .btn-primary:active {
+        transform: translateY(5px);
+        box-shadow: none;
+      }
+
+      .btn-secondary {
+        width: 100%;
+        padding: 16px;
+        border: 3px solid var(--secondary-color);
+        border-radius: 20px;
+        background: white;
+        color: var(--secondary-color);
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 10px;
+        box-shadow: 0 5px 0px #eee;
+        font-family: "Fredoka";
+        transition: all 0.2s;
+      }
+      .btn-secondary:active {
+        transform: translateY(5px);
+        box-shadow: none;
+      }
+
+      .back-button {
+        background: white;
+        border: 2px solid #eee;
+        padding: 8px 15px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-weight: 700;
+        margin-bottom: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Fredoka";
+        color: var(--text-light);
+        transition: 0.2s;
+      }
+      .back-button:active {
+        transform: scale(0.95);
+      }
+
+      .link-text {
+        margin-top: 20px;
+        font-size: 14px;
+        color: var(--text-light);
+        text-align: center;
+      }
+      .link-text a {
+        color: var(--secondary-color);
+        text-decoration: none;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      /* --- HEADER --- */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+      }
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--accent-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 20px;
+        border: 3px solid white;
+        box-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
+      }
+      .greeting h2 {
+        font-family: "Fredoka";
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+      .greeting p {
+        font-size: 12px;
+        color: var(--text-light);
+      }
+      .header-actions {
+        display: flex;
+        gap: 10px;
+      }
+      .icon-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: #fff;
+        border: 2px solid #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+        position: relative;
+      }
+      .notification-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background: var(--primary-color);
+        color: white;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        font-size: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+      }
+
+      /* --- CARDS & LISTS --- */
+      .card-base {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        transition: 0.2s;
+        border: 3px solid transparent;
+      }
+      .card-base:hover {
+        transform: translateY(-3px);
+        border-color: var(--secondary-color);
+      }
+
+      .child-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+      .add-child-card {
+        border: 3px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        border-radius: 20px;
+        color: #aaa;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 15px;
+      }
+
+      .course-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        margin-bottom: 10px;
+      }
+      .course-title {
+        font-family: "Fredoka";
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 5px;
+      }
+      .progress-bar {
+        height: 10px;
+        background: #eee;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+      }
+      .progress-fill {
+        height: 100%;
+        background: repeating-linear-gradient(
+          45deg,
+          var(--secondary-color),
+          var(--secondary-color) 10px,
+          var(--success-color) 10px,
+          var(--success-color) 20px
+        );
+        transition: width 1s ease;
+      }
+
+      /* --- TABS --- */
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 25px;
+        overflow-x: auto;
+        padding-bottom: 5px;
+      }
+      .tab {
+        padding: 10px 20px;
+        border-radius: 25px;
+        border: none;
+        background: #f1f2f6;
+        color: var(--text-light);
+        font-family: "Fredoka";
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: 0.2s;
+      }
+      .tab.active {
+        background: var(--secondary-color);
+        color: white;
+        transform: scale(1.05);
+        box-shadow: 0 5px 0 #2980b9;
+      }
+      .content-section {
+        display: none;
+      }
+      .content-section.active {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      /* --- PARENT SETTINGS & NOTIFICATIONS --- */
+      .notification-item {
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 4px solid var(--secondary-color);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+      .notification-item.unread {
+        background: #f0f9ff;
+        border-left-color: var(--primary-color);
+      }
+      .notification-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-family: "Fredoka";
+      }
+
+      .settings-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        box-shadow: var(--shadow);
+      }
+      .toggle-switch {
+        width: 50px;
+        height: 28px;
+        background: #ccc;
+        border-radius: 50px;
+        position: relative;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .toggle-switch.active {
+        background: var(--success-color);
+      }
+      .toggle-switch::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 22px;
+        height: 22px;
+        background: white;
+        border-radius: 50%;
+        transition: 0.3s;
+      }
+      .toggle-switch.active::after {
+        left: 25px;
+      }
+      .settings-category {
+        background: linear-gradient(
+          135deg,
+          var(--secondary-color),
+          var(--blue)
+        );
+        color: white;
+        padding: 12px 15px;
+        border-radius: 15px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        font-family: "Fredoka";
+      }
+
+      /* --- QUIZ STYLES --- */
+      .quiz-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .quiz-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: var(--shadow);
+        border: 3px solid transparent;
+        cursor: pointer;
+      }
+      .quiz-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary-color);
+      }
+      .quiz-card.math {
+        border-bottom: 5px solid var(--secondary-color);
+      }
+      .quiz-card.english {
+        border-bottom: 5px solid var(--success-color);
+      }
+      .quiz-card.science {
+        border-bottom: 5px solid var(--purple);
+      }
+      .quiz-card.bangla {
+        border-bottom: 5px solid var(--pink);
+      }
+
+      .quiz-option-card {
+        background: white;
+        border: 3px solid #eee;
+        border-radius: 15px;
+        padding: 20px;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+        font-family: "Fredoka";
+        transition: 0.2s;
+      }
+      .quiz-option-card.selected {
+        border-color: var(--secondary-color);
+        background: #e0f7fa;
+        transform: scale(1.05);
+      }
+
+      #quiz-inline-feedback {
+        text-align: center;
+        font-family: "Fredoka";
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        min-height: 30px;
+      }
+
+      /* --- AI CHAT STYLES --- */
+      .ai-chat-screen {
+        display: flex;
+        flex-direction: column;
+        height: 60vh;
+      }
+      .chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .chat-message {
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        border-radius: 15px;
+        max-width: 80%;
+        line-height: 1.4;
+      }
+      .chat-message.ai {
+        background: #f0f0f0;
+        margin-right: auto;
+        color: var(--text-dark);
+        border-bottom-left-radius: 2px;
+      }
+      .chat-message.user {
+        background: var(--secondary-color);
+        margin-left: auto;
+        color: white;
+        border-bottom-right-radius: 2px;
+      }
+      .chat-input-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        background: #ffffff;
+        border-radius: 50px; /* Classy Pill Shape */
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); /* Soft Shadow */
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        margin-top: 10px;
+      }
+      .chat-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 10px;
+        font-size: 16px;
+        font-family: "Comic Neue", cursive;
+        color: var(--text-dark);
+        outline: none; /* Removes the blue outline on click */
+      }
+
+      /* Microphone Button */
+      .voice-chat-button {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        background: #f1f2f6;
+        color: var(--text-light);
+        font-size: 20px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy effect */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .voice-chat-button:hover {
+        background: #e1e2e6;
+        transform: scale(1.1);
+        color: var(--primary-color);
+      }
+
+      /* Send Button */
+      .send-button {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: none;
+        background: linear-gradient(
+          135deg,
+          var(--secondary-color),
+          var(--blue)
+        );
+        color: black;
+        font-size: 18px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 10px rgba(84, 160, 255, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-left: 4px; /* Optical adjustment for the arrow icon */
+      }
+
+      .send-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 15px rgba(84, 160, 255, 0.4);
+      }
+
+      /* --- GAMIFICATION & GAMES --- */
+      .resources-row {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+      }
+      .resource-card {
+        flex: 1;
+        background: white;
+        border: 2px solid var(--secondary-color);
+        border-radius: 15px;
+        padding: 10px;
+        text-align: center;
+        color: var(--secondary-color);
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 0 rgba(84, 160, 255, 0.2);
+        transition: 0.2s;
+      }
+      .resource-card:active {
+        transform: translateY(4px);
+        box-shadow: none;
+      }
+
+      .topic-item {
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border: 2px solid #f1f2f6;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .topic-item:hover {
+        border-color: var(--primary-color);
+        transform: translateX(5px);
+      }
+      .topic-number {
+        width: 30px;
+        height: 30px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-family: "Fredoka";
+      }
+
+      /* Games */
+      .tree-container {
+        background: #c4e538;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+        position: relative;
+        border: 4px solid #a3cb38;
+        height: 320px;
+        margin-top: 15px;
+        overflow: hidden;
+      }
+      .tree-trunk {
+        width: 40px;
+        height: 80px;
+        background: #8d6e63;
+        margin: 0 auto;
+        border-radius: 5px;
+      }
+      .tree-foliage {
+        width: 220px;
+        height: 160px;
+        background: #6ab04c;
+        margin: 0 auto;
+        border-radius: 50%;
+        position: relative;
+        top: 10px;
+        border: 5px solid #badc58;
+      }
+      .apple {
+        width: 45px;
+        height: 45px;
+        background: #ff6b6b;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        cursor: grab;
+        box-shadow: 0 3px 0 #c23616;
+        z-index: 10;
+        font-family: "Fredoka";
+        font-size: 18px;
+        transition: transform 0.1s;
+      }
+      .apple:active {
+        cursor: grabbing;
+        transform: scale(1.2);
+      }
+      .basket {
+        width: 120px;
+        height: 60px;
+        background: #e17055;
+        border-radius: 0 0 30px 30px;
+        margin: 10px auto;
+        border: 3px solid #d63031;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Fredoka";
+        transition: 0.2s;
+      }
+      .basket.highlight {
+        background: #fab1a0;
+        transform: translateX(-50%) scale(1.1);
+      }
+
+      .word-bank {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 15px;
+        min-height: 80px;
+      }
+      .word-tile {
+        background: white;
+        padding: 10px 15px;
+        border-radius: 10px;
+        border: 2px solid var(--secondary-color);
+        font-weight: bold;
+        cursor: grab;
+        box-shadow: 0 4px 0 #ddd;
+        font-family: "Fredoka";
+      }
+      .word-tile:active {
+        cursor: grabbing;
+        transform: scale(1.1);
+      }
+      .sentence-slot {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        border: 3px dashed #aaa;
+        min-height: 80px;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      /* Mystery Math */
+      .math-board {
+        background: #fff8e1;
+        border: 4px solid #ffcc00;
+        border-radius: 20px;
+        padding: 30px;
+        margin: 20px auto;
+        width: 100%;
+        max-width: 300px;
+        font-family: "Courier New", monospace;
+        font-weight: bold;
+        font-size: 28px;
+        color: #333;
+        position: relative;
+        box-shadow: 0 10px 0 #ffca28;
+      }
+      .math-row {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-bottom: 5px;
+      }
+      .math-line {
+        border-bottom: 3px solid #d4a017;
+        margin: 10px 0;
+      }
+      .math-input-box {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #2980b9;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 24px;
+        color: #2980b9;
+        background: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .math-input-box.focused {
+        box-shadow: 0 0 0 3px #54a0ff;
+        background: #e0f7fa;
+      }
+      .numpad {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+      }
+      .num-btn {
+        background: var(--secondary-color);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #2980b9;
+      }
+      .num-btn:active {
+        transform: translateY(4px);
+        box-shadow: none;
+      }
+
+      /* Word Builder */
+      .scramble-container {
+        background: #dff9fb;
+        border-radius: 20px;
+        padding: 20px;
+        text-align: center;
+        border: 4px solid #c7ecee;
+        min-height: 400px;
+      }
+      .hint-circle {
+        width: 100px;
+        height: 100px;
+        background: white;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 50px;
+        border: 3px solid #ff9ff3;
+        box-shadow: 0 5px 0 rgba(0, 0, 0, 0.1);
+      }
+      .letter-container {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+      }
+      .letter-bubble {
+        width: 50px;
+        height: 50px;
+        background: #ff6b81;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: "Fredoka";
+        cursor: pointer;
+        box-shadow: 0 4px 0 #c44569;
+        transition: 0.2s;
+      }
+      .letter-bubble:active {
+        transform: scale(0.9);
+      }
+      .letter-bubble.used {
+        opacity: 0.3;
+        cursor: default;
+        transform: none;
+        box-shadow: none;
+      }
+      .target-word-area {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        min-height: 60px;
+        margin-bottom: 20px;
+      }
+      .letter-slot {
+        width: 40px;
+        height: 50px;
+        border-bottom: 4px solid #333;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        font-size: 30px;
+        font-weight: bold;
+        color: #333;
+      }
+
+      /* Modals */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .modal.active {
+        display: flex;
+      }
+      .modal-content {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        width: 100%;
+        max-width: 350px;
+        animation: pop 0.3s ease;
+        text-align: center;
+      }
+      .close-modal {
+        float: right;
+        font-size: 24px;
+        cursor: pointer;
+        color: #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="device-frame">
+      <div class="status-bar">
+        <div>9:41 AM</div>
+        <div>📶 🔋</div>
+      </div>
+
+      <div id="landing" class="auth-screen active">
+        <div style="text-align: center; padding-top: 40px">
+          <div class="logo">🦁</div>
+          <h1 class="app-title">Kids Learn!</h1>
+          <p class="app-subtitle">Fun Learning for Class 2</p>
+          <button class="btn-primary" onclick="showScreen('parent-login')">
+            Login as Parent
+          </button>
+          <button class="btn-secondary" onclick="showScreen('student-login')">
+            Login as Student
+          </button>
+          <div class="link-text">
+            Don't have an account?
+            <a onclick="showScreen('parent-register')">Sign Up</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="parent-login" class="auth-screen">
+        <button class="back-button" onclick="showScreen('landing')">
+          ← Back
+        </button>
+        <h2 class="app-title">Parent Login</h2>
+        <div class="form-group">
+          <label class="form-label">Email</label
+          ><input
+            type="email"
+            class="form-input"
+            placeholder="parent@example.com"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label
+          ><input type="password" class="form-input" placeholder="Password" />
+        </div>
+        <button class="btn-primary" onclick="loginParent()">Login</button>
+      </div>
+
+      <div id="parent-register" class="auth-screen">
+        <button class="back-button" onclick="showScreen('landing')">
+          ← Back
+        </button>
+        <h2 class="app-title">Create Account</h2>
+        <div class="form-group">
+          <label class="form-label">Name</label
+          ><input type="text" class="form-input" placeholder="Your Name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label
+          ><input type="email" class="form-input" placeholder="Email" />
+        </div>
+        <button class="btn-primary" onclick="registerParent()">Sign Up</button>
+      </div>
+
+      <div id="student-login" class="auth-screen">
+        <button class="back-button" onclick="showScreen('landing')">
+          ← Back
+        </button>
+        <div style="text-align: center; margin-bottom: 20px">
+          <div style="font-size: 60px; animation: bounce 2s infinite">🎓</div>
+        </div>
+        <h2 class="app-title">Student Login</h2>
+        <div class="form-group">
+          <label class="form-label">Username</label
+          ><input type="text" class="form-input" placeholder="e.g. Rahim" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label
+          ><input
+            type="password"
+            class="form-input"
+            placeholder="Secret Password"
+          />
+        </div>
+        <button
+          class="btn-primary"
+          style="background: var(--secondary-color)"
+          onclick="loginStudent()"
+        >
+          Start Playing!
+        </button>
+      </div>
+
+      <div id="parent-dashboard" class="parent-screen">
+        <div class="header">
+          <div class="user-info">
+            <div class="avatar">P</div>
+            <div class="greeting">
+              <h2>Hello Parent!</h2>
+              <p>Monitoring Class 2</p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <button class="icon-btn" onclick="showNotifications()">
+              🔔<span class="notification-badge">3</span>
+            </button>
+            <button class="icon-btn" onclick="showSettings()">⚙️</button>
+            <button class="icon-btn" onclick="logout()">🚪</button>
+          </div>
+        </div>
+
+        <div class="section-title">Your Children</div>
+
+        <div class="card-base child-card" onclick="viewChildStats('Rahim')">
+          <div class="child-header">
+            <div class="child-name">Rahim</div>
+            <div style="font-size: 24px">👦</div>
+          </div>
+          <div class="child-info">Class 2 • 3 Courses Enrolled</div>
+
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 12px;
+              margin-top: 5px;
+              opacity: 0.9;
+            "
+          >
+            <span>Math: 75%</span>
+            <span>English: 45%</span>
+          </div>
+
+          <div
+            class="progress-bar"
+            style="background: rgba(0, 0, 0, 0.2); margin-top: 5px"
+          >
+            <div class="progress-fill" style="width: 60%"></div>
+          </div>
+        </div>
+
+        <div class="add-child-card" onclick="showModal('add-child-modal')">
+          <div style="font-size: 40px; margin-bottom: 10px; color: #aaa">
+            ➕
+          </div>
+          <div style="font-weight: bold; color: #aaa">Add Child</div>
+        </div>
+
+        <button class="btn-primary" onclick="openLibrary()">
+          Browse Library & Enroll 📚
+        </button>
+      </div>
+
+      <div id="notifications" class="parent-screen">
+        <button class="back-button" onclick="showScreen('parent-dashboard')">
+          ← Back
+        </button>
+        <div class="header" style="border: none">
+          <div class="section-title">Notifications 🔔</div>
+          <button
+            class="btn-secondary"
+            style="width: auto; padding: 5px 15px"
+            onclick="alert('Cleared!')"
+          >
+            Clear
+          </button>
+        </div>
+        <div class="notification-item unread">
+          <div class="notification-header">
+            <span>🎉 Achievement</span
+            ><span style="font-size: 12px; color: #aaa">2m ago</span>
+          </div>
+          <div style="font-size: 14px; color: #555">
+            Rahim aced the Math Quiz!
+          </div>
+        </div>
+        <div class="notification-item">
+          <div class="notification-header">
+            <span>⚠️ Alert</span
+            ><span style="font-size: 12px; color: #aaa">1h ago</span>
+          </div>
+          <div style="font-size: 14px; color: #555">
+            Rahim needs help with Phonics.
+          </div>
+        </div>
+      </div>
+
+      <div id="settings" class="parent-screen">
+        <button class="back-button" onclick="showScreen('parent-dashboard')">
+          ← Back
+        </button>
+        <div class="section-title">Settings ⚙️</div>
+
+        <div class="settings-category">📚 Learning Preferences</div>
+        <div class="settings-item">
+          <span>Adaptive Difficulty</span>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+        <div class="settings-item">
+          <span>Gamification</span>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+
+        <div class="settings-category">🛡️ Child Safety & Controls</div>
+        <div class="settings-item">
+          <span>Screen Time Limit</span>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+        <div class="settings-item">
+          <span>Content Filter (Age 7)</span>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+
+        <div class="settings-category">📬 Notification Preferences</div>
+        <div class="settings-item">
+          <span>Daily Report</span>
+          <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+        </div>
+        <div class="settings-item">
+          <span>Alerts</span>
+          <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+        </div>
+      </div>
+
+      <div id="child-dashboard" class="parent-screen">
+        <button class="back-button" onclick="showScreen('parent-dashboard')">
+          ← Back
+        </button>
+        <div class="section-title">Rahim's Progress</div>
+        <div
+          class="card-base"
+          style="border-left: 5px solid var(--primary-color)"
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-weight: bold;
+            "
+          >
+            <span>Mathematics</span><span>75%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 75%"></div>
+          </div>
+        </div>
+        <div
+          class="card-base"
+          style="border-left: 5px solid var(--secondary-color)"
+        >
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-weight: bold;
+            "
+          >
+            <span>English</span><span>45%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 45%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="course-library" class="parent-screen">
+        <button class="back-button" onclick="showScreen('parent-dashboard')">
+          ← Back
+        </button>
+        <div class="section-title">Library 📚</div>
+        <div class="card-base">
+          <div class="course-title">Science (Class 2)</div>
+          <p style="font-size: 13px; color: #777">
+            Nature, Plants, and Animals
+          </p>
+          <button
+            class="btn-primary"
+            style="margin-top: 10px"
+            onclick="alert('Enrolled!')"
+          >
+            Enroll
+          </button>
+        </div>
+      </div>
+
+      <div id="student-dashboard" class="student-screen">
+        <div class="header">
+          <div class="user-info">
+            <div class="avatar">👦</div>
+            <div class="greeting">
+              <h2>Hi, Rahim! 👋</h2>
+              <p>Class 2 • 250 XP</p>
+            </div>
+          </div>
+
+          <div class="header-actions">
+            <button
+              class="icon-btn"
+              onclick="startVoiceChat()"
+              title="Talk to AI"
+            >
+              🎤
+            </button>
+            <button class="icon-btn" onclick="logout()" title="Logout">
+              🚪
+            </button>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button class="tab active" data-tab="home">Home</button>
+          <button class="tab" data-tab="courses">Courses</button>
+          <button class="tab" data-tab="quiz">Quiz</button>
+          <button class="tab" data-tab="ai-tutor">AI Tutor</button>
+          <button class="tab" data-tab="fun">Fun Zone</button>
+        </div>
+
+        <div id="home" class="content-section active">
+          <div
+            style="
+              background: linear-gradient(45deg, #ff9f43, #feca57);
+              border-radius: 20px;
+              padding: 20px;
+              color: white;
+              margin-bottom: 20px;
+              display: flex;
+              align-items: center;
+            "
+          >
+            <div style="flex: 1">
+              <h3 style="font-family: &quot;Fredoka&quot;">Daily Goal 🎯</h3>
+              <p style="font-size: 14px">Finish 1 Math Game!</p>
+            </div>
+            <div style="font-size: 40px; animation: pop 2s infinite">🏆</div>
+          </div>
+          <div class="section-title">Jump Back In</div>
+          <div class="card-base" onclick="openStudentCourse('math')">
+            <div style="display: flex; align-items: center; gap: 15px">
+              <div
+                class="course-icon"
+                style="background: #fff3e0; color: var(--primary-color)"
+              >
+                🧮
+              </div>
+              <div>
+                <h4 style="font-family: &quot;Fredoka&quot;">Mathematics</h4>
+                <p style="font-size: 12px; color: #777">
+                  Addition & Subtraction
+                </p>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 75%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="courses" class="content-section">
+          <h3 class="section-title">My Subjects 📚</h3>
+          <div class="card-base" onclick="openStudentCourse('math')">
+            <div style="display: flex; align-items: center; gap: 15px">
+              <div
+                class="course-icon"
+                style="background: #fff3e0; color: var(--primary-color)"
+              >
+                🧮
+              </div>
+              <div>
+                <h4 style="font-family: &quot;Fredoka&quot;">Mathematics</h4>
+                <p style="font-size: 12px; color: #777">Numbers & Shapes</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-base" onclick="openStudentCourse('english')">
+            <div style="display: flex; align-items: center; gap: 15px">
+              <div
+                class="course-icon"
+                style="background: #e3f2fd; color: var(--secondary-color)"
+              >
+                📝
+              </div>
+              <div>
+                <h4 style="font-family: &quot;Fredoka&quot;">English</h4>
+                <p style="font-size: 12px; color: #777">Phonics & Stories</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-base" onclick="openStudentCourse('bangla')">
+            <div style="display: flex; align-items: center; gap: 15px">
+              <div
+                class="course-icon"
+                style="background: #f1f8e9; color: var(--success-color)"
+              >
+                🐸
+              </div>
+              <div>
+                <h4 style="font-family: &quot;Fredoka&quot;">Bangla</h4>
+                <p style="font-size: 12px; color: #777">গল্প ও কবিতা</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-base" onclick="openStudentCourse('science')">
+            <div style="display: flex; align-items: center; gap: 15px">
+              <div
+                class="course-icon"
+                style="background: #fff3cd; color: #ff9800"
+              >
+                🔬
+              </div>
+              <div>
+                <h4 style="font-family: &quot;Fredoka&quot;">Science</h4>
+                <p style="font-size: 12px; color: #777">Nature & Animals</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="quiz" class="content-section">
+          <h3 class="section-title">Take a Quiz 🧠</h3>
+          <div class="quiz-grid">
+            <div class="quiz-card math" onclick="startQuiz('math')">
+              <div style="font-size: 40px">🔢</div>
+              <div>Math Quiz</div>
+            </div>
+            <div class="quiz-card english" onclick="startQuiz('english')">
+              <div style="font-size: 40px">📝</div>
+              <div>English Quiz</div>
+            </div>
+            <div class="quiz-card science" onclick="startQuiz('science')">
+              <div style="font-size: 40px">🔬</div>
+              <div>Science Quiz</div>
+            </div>
+            <div class="quiz-card bangla" onclick="startQuiz('bangla')">
+              <div style="font-size: 40px">🇧🇩</div>
+              <div>Bangla Quiz</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="ai-tutor" class="content-section">
+          <div class="section-title">AI Tutor Chat 🤖</div>
+          <div class="ai-chat-screen">
+            <div class="chat-messages" id="chat-messages">
+              <div class="chat-message ai">
+                <div class="chat-bubble">
+                  Hello Rahim! I'm your AI tutor. Ask me about Math or English!
+                  😊
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-container">
+              <button
+                class="voice-chat-button"
+                onclick="startVoiceChat()"
+                title="Speak"
+              >
+                🎤
+              </button>
+              <input
+                type="text"
+                class="chat-input"
+                id="chat-input"
+                placeholder="Type or speak..."
+                onkeypress="handleChatEnter(event)"
+              />
+              <button class="send-button" onclick="sendMessage()" title="Send">
+                ➤
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="fun" class="content-section">
+          <h3 class="section-title">Games & Fun 🎮</h3>
+          <div class="card-base" onclick="initGame('math-game')">
+            <div style="text-align: center">
+              <div style="font-size: 40px">🌳</div>
+              <h3 style="font-family: &quot;Fredoka&quot;">Apple Math</h3>
+              <p style="font-size: 12px">Catch the right numbers!</p>
+            </div>
+          </div>
+          <div class="card-base" onclick="initGame('english-game')">
+            <div style="text-align: center">
+              <div style="font-size: 40px">🧩</div>
+              <h3 style="font-family: &quot;Fredoka&quot;">Sentence Puzzle</h3>
+              <p style="font-size: 12px">Build the sentence!</p>
+            </div>
+          </div>
+          <div class="card-base" onclick="initGame('math-multi-game')">
+            <div style="text-align: center">
+              <div style="font-size: 40px">✖️</div>
+              <h3 style="font-family: &quot;Fredoka&quot;">Mystery Math</h3>
+              <p style="font-size: 12px">Fill in the missing digits!</p>
+            </div>
+          </div>
+          <div class="card-base" onclick="initGame('word-scramble-game')">
+            <div style="text-align: center">
+              <div style="font-size: 40px">🔠</div>
+              <h3 style="font-family: &quot;Fredoka&quot;">Word Builder</h3>
+              <p style="font-size: 12px">Unscramble the letters!</p>
+            </div>
+          </div>
+          <div class="card-base" onclick="initGame('bangla-game')">
+            <div style="text-align: center">
+              <div style="font-size: 40px">✒️</div>
+              <h3 style="font-family: &quot;Fredoka&quot;">শব্দ গঠন</h3>
+              <p style="font-size: 12px">বাংলা শব্দ সাজাও!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="student-course-view" class="student-screen">
+        <button class="back-button" onclick="closeStudentCourse()">
+          ← Back
+        </button>
+        <div style="text-align: center; margin-bottom: 20px">
+          <div
+            id="cv-icon"
+            class="course-icon"
+            style="
+              margin: 0 auto 10px auto;
+              background: #fff3e0;
+              color: var(--primary-color);
+            "
+          >
+            🧮
+          </div>
+          <h2
+            id="cv-title"
+            style="
+              font-family: &quot;Fredoka&quot;;
+              color: var(--primary-color);
+            "
+          >
+            Mathematics
+          </h2>
+          <p style="color: var(--text-light)">Class 2</p>
+        </div>
+
+        <div class="resources-row">
+          <div class="resource-card" onclick="alert('Opening Textbook...')">
+            <div style="font-size: 24px">📖</div>
+            Textbook
+          </div>
+          <div class="resource-card" onclick="alert('Playing Audiobook...')">
+            <div style="font-size: 24px">🎧</div>
+            Audiobook
+          </div>
+        </div>
+
+        <h3 class="section-title">Lessons 📝</h3>
+        <div id="cv-topics"></div>
+
+        <h3 class="section-title">Fun Practice 🎡</h3>
+        <div id="cv-actions"></div>
+      </div>
+
+      <div id="math-game" class="student-screen" style="background: #f9fbe7">
+        <button class="back-button" onclick="closeGame()">❌ Quit</button>
+        <div style="text-align: center">
+          <h2 style="font-family: &quot;Fredoka&quot;; color: #6ab04c">
+            Apple Addition
+          </h2>
+          <p>Drag the apple with answer <strong>5</strong> to the basket!</p>
+          <div
+            style="
+              font-size: 24px;
+              font-weight: bold;
+              background: white;
+              display: inline-block;
+              padding: 10px 20px;
+              border-radius: 15px;
+              margin-top: 10px;
+              border: 2px solid #ddd;
+            "
+          >
+            2 + 3 = ?
+          </div>
+        </div>
+        <div class="tree-container">
+          <div class="tree-foliage"></div>
+          <div class="tree-trunk"></div>
+          <div
+            class="apple"
+            draggable="true"
+            id="a1"
+            style="top: 30px; left: 80px"
+          >
+            2
+          </div>
+          <div
+            class="apple"
+            draggable="true"
+            id="a2"
+            style="top: 80px; left: 40px"
+          >
+            5
+          </div>
+          <div
+            class="apple"
+            draggable="true"
+            id="a3"
+            style="top: 60px; left: 140px"
+          >
+            8
+          </div>
+          <div
+            class="apple"
+            draggable="true"
+            id="a4"
+            style="top: 110px; left: 100px"
+          >
+            1
+          </div>
+          <div class="basket" id="math-basket">Drop Here</div>
+        </div>
+        <p
+          id="math-feedback"
+          style="
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-top: 10px;
+          "
+        ></p>
+      </div>
+
+      <div id="english-game" class="student-screen" style="background: #e3f2fd">
+        <button class="back-button" onclick="closeGame()">❌ Quit</button>
+        <div style="text-align: center; margin-bottom: 20px">
+          <h2
+            style="
+              font-family: &quot;Fredoka&quot;;
+              color: var(--secondary-color);
+            "
+          >
+            Sentence Puzzle
+          </h2>
+          <p>Make a correct sentence!</p>
+        </div>
+        <div class="sentence-slot" id="sentence-container"></div>
+        <div class="word-bank" id="word-bank">
+          <div class="word-tile" draggable="true" id="w1">The</div>
+          <div class="word-tile" draggable="true" id="w2">sleeping</div>
+          <div class="word-tile" draggable="true" id="w3">cat</div>
+          <div class="word-tile" draggable="true" id="w4">is</div>
+        </div>
+        <button class="btn-primary" onclick="checkSentence()">
+          Check Sentence ✅
+        </button>
+        <p
+          id="eng-feedback"
+          style="text-align: center; font-weight: bold; margin-top: 10px"
+        ></p>
+      </div>
+
+      <div
+        id="math-multi-game"
+        class="student-screen"
+        style="background: #fff3e0"
+      >
+        <button class="back-button" onclick="closeGame()">❌ Quit</button>
+        <div class="game-header">
+          <h2 style="font-family: &quot;Fredoka&quot;; color: #e67e22">
+            Mystery Math
+          </h2>
+          <p>Fill in the missing numbers!</p>
+        </div>
+        <div class="math-board">
+          <div class="math-row"><span>2</span><span>1</span></div>
+          <div class="math-row"><span>×</span><span>1</span><span>7</span></div>
+          <div class="math-line"></div>
+          <div class="math-row">
+            <span>1</span>
+            <div
+              class="math-input-box"
+              onclick="focusMathBox(this)"
+              id="mb1"
+            ></div>
+            <span>7</span>
+          </div>
+          <div class="math-row">
+            <div
+              class="math-input-box"
+              onclick="focusMathBox(this)"
+              id="mb2"
+            ></div>
+            <span>1</span><span>0</span>
+          </div>
+          <div class="math-line"></div>
+          <div class="math-row">
+            <div
+              class="math-input-box"
+              onclick="focusMathBox(this)"
+              id="mb3"
+            ></div>
+            <span>5</span>
+            <div
+              class="math-input-box"
+              onclick="focusMathBox(this)"
+              id="mb4"
+            ></div>
+          </div>
+        </div>
+        <div class="numpad">
+          <button class="num-btn" onclick="fillMathBox(1)">1</button
+          ><button class="num-btn" onclick="fillMathBox(2)">2</button
+          ><button class="num-btn" onclick="fillMathBox(3)">3</button
+          ><button class="num-btn" onclick="fillMathBox(4)">4</button
+          ><button class="num-btn" onclick="fillMathBox(5)">5</button>
+          <button class="num-btn" onclick="fillMathBox(6)">6</button
+          ><button class="num-btn" onclick="fillMathBox(7)">7</button
+          ><button class="num-btn" onclick="fillMathBox(8)">8</button
+          ><button class="num-btn" onclick="fillMathBox(9)">9</button
+          ><button class="num-btn" onclick="fillMathBox(0)">0</button>
+        </div>
+        <button
+          class="btn-primary"
+          style="margin-top: 20px"
+          onclick="checkMathMulti()"
+        >
+          Check Answer
+        </button>
+      </div>
+
+      <div
+        id="word-scramble-game"
+        class="student-screen"
+        style="background: #dff9fb"
+      >
+        <button class="back-button" onclick="closeGame()">❌ Quit</button>
+        <div class="game-header">
+          <h2 style="font-family: &quot;Fredoka&quot;; color: #22a6b3">
+            Word Builder
+          </h2>
+          <p>Unscramble the letters!</p>
+        </div>
+        <div class="scramble-container">
+          <div class="hint-circle">🪑</div>
+          <div class="letter-container" id="scramble-letters">
+            <div class="letter-bubble" onclick="placeLetter(this, 'A')">A</div>
+            <div class="letter-bubble" onclick="placeLetter(this, 'E')">E</div>
+            <div class="letter-bubble" onclick="placeLetter(this, 'T')">T</div>
+            <div class="letter-bubble" onclick="placeLetter(this, 'B')">B</div>
+            <div class="letter-bubble" onclick="placeLetter(this, 'L')">L</div>
+          </div>
+          <div class="target-word-area" id="target-slots">
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+            <div class="letter-slot"></div>
+          </div>
+          <button class="btn-primary" onclick="checkScramble()">
+            Check Word
+          </button>
+          <button class="btn-secondary" onclick="resetScramble()">Reset</button>
+        </div>
+      </div>
+
+      <div id="bangla-game" class="student-screen" style="background: #e8f5e9">
+        <button class="back-button" onclick="closeGame()">❌ Quit</button>
+        <div class="game-header">
+          <h2 style="font-family: &quot;Fredoka&quot;; color: #2e7d32">
+            শব্দ গঠন
+          </h2>
+          <p>সঠিক শব্দ তৈরি করো! (Make a word)</p>
+        </div>
+        <div
+          class="scramble-container"
+          style="border-color: #a5d6a7; background: #c8e6c9"
+        >
+          <div class="hint-circle" style="border-color: #4caf50">✒️</div>
+          <div class="letter-container">
+            <div
+              class="letter-bubble"
+              style="background: #66bb6a"
+              draggable="true"
+              id="bl1"
+            >
+              ক
+            </div>
+            <div
+              class="letter-bubble"
+              style="background: #66bb6a"
+              draggable="true"
+              id="bl2"
+            >
+              ল
+            </div>
+            <div
+              class="letter-bubble"
+              style="background: #66bb6a"
+              draggable="true"
+              id="bl3"
+            >
+              ম
+            </div>
+          </div>
+          <div
+            class="sentence-slot"
+            id="bangla-slot"
+            style="min-height: 70px; background: rgba(255, 255, 255, 0.7)"
+          ></div>
+          <button
+            class="btn-primary"
+            style="background: #2e7d32; margin-top: 20px"
+            onclick="checkBanglaWord()"
+          >
+            Check Answer
+          </button>
+          <p
+            id="bangla-feedback"
+            style="font-weight: bold; margin-top: 10px; font-size: 20px"
+          ></p>
+        </div>
+      </div>
+
+      <div id="quiz-screen" class="student-screen">
+        <button class="back-button" onclick="exitQuiz()">← Exit Quiz</button>
+        <div class="quiz-progress">
+          <div
+            class="quiz-progress-fill"
+            id="quiz-progress"
+            style="width: 0%"
+          ></div>
+        </div>
+        <div style="text-align: center; margin: 20px 0">
+          <div style="font-size: 60px" id="quiz-char">🤔</div>
+          <h2 class="question-text" id="quiz-question">Loading...</h2>
+        </div>
+        <div class="quiz-options-grid" id="quiz-options"></div>
+        <div id="quiz-inline-feedback"></div>
+        <button
+          class="btn-primary"
+          id="check-btn"
+          onclick="checkQuizAnswer()"
+          disabled
+        >
+          Check Answer
+        </button>
+      </div>
+
+      <div id="add-child-modal" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" onclick="closeModal('add-child-modal')"
+            >&times;</span
+          >
+          <h2
+            style="
+              font-family: &quot;Fredoka&quot;;
+              margin-bottom: 15px;
+              color: var(--primary-color);
+            "
+          >
+            Add New Child
+          </h2>
+          <div class="form-group">
+            <label class="form-label">Child's Name</label
+            ><input type="text" class="form-input" placeholder="e.g. Sara" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Age</label
+            ><input type="number" class="form-input" placeholder="e.g. 7" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">School Name</label
+            ><input
+              type="text"
+              class="form-input"
+              placeholder="e.g. Dhaka Primary"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Grade</label
+            ><select class="form-select">
+              <option>Class 1</option>
+              <option selected>Class 2</option>
+              <option>Class 3</option>
+            </select>
+          </div>
+          <button class="btn-primary" onclick="addChild()">Save & Add</button>
+        </div>
+      </div>
+
+      <div id="feedback-screen" class="student-screen">
+        <div class="feedback-screen">
+          <div class="feedback-icon" id="feedback-icon">🎉</div>
+          <div class="feedback-message" id="feedback-message">Well Done!</div>
+          <div class="feedback-submessage" id="feedback-submessage">
+            You completed the quiz!
+          </div>
+          <button class="btn-primary" onclick="closeGame()">
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // --- NAVIGATION ---
+      function showScreen(id) {
+        document
+          .querySelectorAll(".auth-screen, .parent-screen, .student-screen")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById(id).classList.add("active");
+      }
+      function loginParent() {
+        showScreen("parent-dashboard");
+      }
+      function loginStudent() {
+        showScreen("student-dashboard");
+      }
+      function registerParent() {
+        alert("Welcome!");
+        showScreen("parent-dashboard");
+      }
+      function logout() {
+        if (confirm("Logout?")) showScreen("landing");
+      }
+      function backFromCourseLibrary() {
+        showScreen("parent-dashboard");
+      }
+      function closeStudentCourse() {
+        showScreen("student-dashboard");
+      }
+      function closeGame() {
+        showScreen("student-dashboard");
+      }
+      function showModal(id) {
+        document.getElementById(id).classList.add("active");
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("active");
+      }
+      function addChild() {
+        alert("Child Added Successfully! ✅");
+        closeModal("add-child-modal");
+      }
+      function toggleSwitch(el) {
+        el.classList.toggle("active");
+      }
+      function showNotifications() {
+        showScreen("notifications");
+      }
+      function showSettings() {
+        showScreen("settings");
+      }
+      function markAllRead() {
+        document
+          .querySelectorAll(".notification-item.unread")
+          .forEach((i) => i.classList.remove("unread"));
+        document.querySelector(".notification-badge").innerText = "0";
+      }
+
+      // --- TABS ---
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", function () {
+          document
+            .querySelectorAll(".tab")
+            .forEach((t) => t.classList.remove("active"));
+          this.classList.add("active");
+          document
+            .querySelectorAll(".content-section")
+            .forEach((s) => s.classList.remove("active"));
+          document.getElementById(this.dataset.tab).classList.add("active");
+        });
+      });
+
+      // --- COURSE DATA (CLASS 2) ---
+      const courses = {
+        math: {
+          title: "Mathematics",
+          color: "#FF9F43",
+          icon: "🧮",
+          bg: "#FFF3E0",
+          lessons: [
+            "Numbers 1-100",
+            "Simple Addition (2+3)",
+            "Simple Subtraction (5-2)",
+            "Shapes",
+          ],
+          gameId: "math-game",
+          gameName: "Apple Math 🌳",
+        },
+        english: {
+          title: "English",
+          color: "#54a0ff",
+          icon: "📝",
+          bg: "#E3F2FD",
+          lessons: [
+            "Phonics A-Z",
+            "Rhyming Words",
+            "Sentence Building",
+            "Story Time",
+          ],
+          gameId: "english-game",
+          gameName: "Sentence Puzzle 🧩",
+        },
+        bangla: {
+          title: "Bangla",
+          color: "#1dd1a1",
+          icon: "🐸",
+          bg: "#F1F8E9",
+          lessons: [
+            "স্বরবর্ণ (Vowels)",
+            "ব্যঞ্জনবর্ণ (Consonants)",
+            "ফলের নাম",
+            "ছড়া",
+          ],
+          gameId: "bangla-game",
+          gameName: "শব্দ গঠন ✒️",
+        },
+        science: {
+          title: "Science",
+          color: "#FFC107",
+          icon: "🔬",
+          bg: "#fff3cd",
+          lessons: ["Plants", "Animals", "Water"],
+          gameId: null,
+          gameName: "Coming Soon",
+        },
+      };
+
+      function openStudentCourse(id) {
+        const data = courses[id];
+        document.getElementById("cv-title").innerText = data.title;
+        document.getElementById("cv-title").style.color = data.color;
+        document.getElementById("cv-icon").innerText = data.icon;
+        document.getElementById("cv-icon").style.background = data.bg;
+        document.getElementById("cv-icon").style.color = data.color;
+
+        const list = document.getElementById("cv-topics");
+        list.innerHTML = "";
+        data.lessons.forEach((l, i) => {
+          list.innerHTML += `<div class="topic-item"><div class="topic-number" style="background:${data.color}">${i + 1}</div><div style="flex:1; font-weight:600;">${l}</div><div>▶️</div></div>`;
+        });
+
+        const actions = document.getElementById("cv-actions");
+        actions.innerHTML = "";
+        if (data.gameId)
+          actions.innerHTML += `<button class="btn-primary" style="background:${data.color}" onclick="initGame('${data.gameId}')">🎮 Play ${data.gameName}</button>`;
+        actions.innerHTML += `<button class="btn-secondary" onclick="startQuiz('${id}')">❓ Take Quiz</button>`;
+
+        showScreen("student-course-view");
+      }
+
+      // --- GAME LOGIC ---
+      function initGame(id) {
+        if (!id) return;
+        showScreen(id);
+        if (id === "math-game") setupMathGame();
+        if (id === "english-game") setupEnglishGame();
+        if (id === "math-multi-game") setupMathMulti();
+        if (id === "word-scramble-game") setupScramble();
+        if (id === "bangla-game") setupBanglaGame();
+      }
+
+      // Math 1: Apple Tree
+      // Replace your existing setupMathGame function with this corrected version
+      function setupMathGame() {
+        const apples = document.querySelectorAll(".apple");
+        const basket = document.getElementById("math-basket");
+        const feedback = document.getElementById("math-feedback");
+        feedback.innerText = "";
+
+        apples.forEach((a) => {
+          a.style.display = "flex";
+          // Drag Events
+          a.addEventListener("dragstart", (e) =>
+            e.dataTransfer.setData("text/plain", e.target.id),
+          );
+
+          // Click Fallback (Fixed to handle whitespace)
+          a.onclick = function () {
+            if (this.innerText.trim() === "5") {
+              // ADDED .trim()
+              this.style.display = "none";
+              feedback.innerText = "🎉 Correct! 2 + 3 = 5";
+              feedback.style.color = "#1dd1a1";
+            } else {
+              feedback.innerText = "Oops! Try again.";
+              feedback.style.color = "#ff6b6b";
+            }
+          };
+        });
+
+        basket.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          basket.classList.add("highlight");
+        });
+        basket.addEventListener("dragleave", () =>
+          basket.classList.remove("highlight"),
+        );
+
+        // Drop Event (Fixed to handle whitespace)
+        basket.addEventListener("drop", (e) => {
+          e.preventDefault();
+          basket.classList.remove("highlight");
+          const id = e.dataTransfer.getData("text/plain");
+          const apple = document.getElementById(id);
+
+          // ADDED .trim() HERE
+          if (apple.innerText.trim() === "5") {
+            apple.style.display = "none";
+            feedback.innerText = "🎉 Correct! 2 + 3 = 5";
+            feedback.style.color = "#1dd1a1";
+          } else {
+            feedback.innerText = "Oops! Try another apple.";
+            feedback.style.color = "#ff6b6b";
+          }
+        });
+      }
+
+      // English 1: Sentence
+      function setupEnglishGame() {
+        const words = document.querySelectorAll(".word-tile");
+        const bank = document.getElementById("word-bank");
+        const slot = document.getElementById("sentence-container");
+        const feedback = document.getElementById("eng-feedback");
+        feedback.innerText = "";
+
+        words.forEach((w) => {
+          bank.appendChild(w);
+          w.addEventListener("dragstart", (e) =>
+            e.dataTransfer.setData("text/plain", e.target.id),
+          );
+        });
+
+        [slot, bank].forEach((zone) => {
+          zone.addEventListener("dragover", (e) => e.preventDefault());
+          zone.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData("text/plain");
+            zone.appendChild(document.getElementById(id));
+          });
+        });
+      }
+      function checkSentence() {
+        const slot = document.getElementById("sentence-container");
+        const text = Array.from(slot.children)
+          .map((c) => c.innerText)
+          .join(" ");
+        const fb = document.getElementById("eng-feedback");
+        if (text === "The cat is sleeping") {
+          fb.innerText = "🌟 Perfect!";
+          fb.style.color = "#1dd1a1";
+        } else {
+          fb.innerText = "Hint: The cat is sleeping";
+          fb.style.color = "#ff6b6b";
+        }
+      }
+
+      // Math 2: Mystery Multiplication
+      let activeMathBox = null;
+      function setupMathMulti() {
+        document.querySelectorAll(".math-input-box").forEach((b) => {
+          b.innerText = "";
+          b.classList.remove("focused");
+        });
+      }
+      function focusMathBox(el) {
+        if (activeMathBox) activeMathBox.classList.remove("focused");
+        activeMathBox = el;
+        el.classList.add("focused");
+      }
+      function fillMathBox(num) {
+        if (activeMathBox) activeMathBox.innerText = num;
+      }
+      function checkMathMulti() {
+        const b1 = document.getElementById("mb1").innerText;
+        const b2 = document.getElementById("mb2").innerText;
+        const b3 = document.getElementById("mb3").innerText;
+        const b4 = document.getElementById("mb4").innerText;
+
+        if (b1 === "4" && b2 === "2" && b3 === "3" && b4 === "7")
+          alert("Correct! 🎉");
+        else alert("Not quite!");
+      }
+
+      // English 2: Word Scramble
+      function setupScramble() {
+        resetScramble();
+      }
+      function placeLetter(el, letter) {
+        if (el.classList.contains("used")) return;
+        const slots = document.querySelectorAll(".letter-slot");
+        for (let slot of slots) {
+          if (slot.innerText === "") {
+            slot.innerText = letter;
+            el.classList.add("used");
+            break;
+          }
+        }
+      }
+      function resetScramble() {
+        document
+          .querySelectorAll(".letter-slot")
+          .forEach((s) => (s.innerText = ""));
+        document
+          .querySelectorAll(".letter-bubble")
+          .forEach((b) => b.classList.remove("used"));
+      }
+      function checkScramble() {
+        const slots = document.querySelectorAll(".letter-slot");
+        let word = "";
+        slots.forEach((s) => (word += s.innerText));
+        if (word === "TABLE") alert("Correct! It is a TABLE 🪑");
+        else alert("Try again!");
+      }
+      function handleChatEnter(event) {
+        if (event.key === "Enter") {
+          sendMessage();
+        }
+      }
+
+      // --- PASTE THE NEW FUNCTION HERE ---
+      function startVoiceChat() {
+        alert("🎤 Voice Chat Activated! (Listening...)");
+      }
+
+      // Initialize
+      window.addEventListener("load", () => {
+        // ...
+      });
+
+      // --- NEW PARENT LOGIC ---
+
+      // 1. View Child Stats
+      function viewChildStats(childName) {
+        // Populate the Child Dashboard Screen with specific data
+        const dashboard = document.getElementById("child-dashboard");
+
+        // In a real app, you would fetch this data from an API based on childName
+        const statsHTML = `
+        <div class="header">
+            <div class="user-info">
+                <div class="avatar">${childName[0]}</div> <div class="greeting"><h2>${childName}'s Progress</h2><p>Class 2 • Overview</p></div>
+            </div>
+        </div>
+
+        <div class="section-title">Current Performance 📊</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:20px;">
+            <div class="stat-box" style="background:#f9f9f9; padding:15px; border-radius:15px; text-align:center;">
+                <div style="font-size:24px; font-weight:bold; color:var(--primary-color);">1,250</div>
+                <div style="font-size:12px; color:#777;">Total XP</div>
+            </div>
+            <div class="stat-box" style="background:#f9f9f9; padding:15px; border-radius:15px; text-align:center;">
+                <div style="font-size:24px; font-weight:bold; color:var(--secondary-color);">7 Day</div>
+                <div style="font-size:12px; color:#777;">Streak</div>
+            </div>
+        </div>
+
+        <div class="section-title">Enrolled Courses</div>
+        
+        <div class="card-base" style="border-left: 5px solid var(--primary-color);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                <div style="font-weight:bold;">Mathematics</div>
+                <span style="background:var(--primary-color); color:white; padding:2px 8px; border-radius:10px; font-size:11px;">75%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+            <p style="font-size:12px; color:#777; margin-top:5px;">Recent: Completed "Simple Addition"</p>
+        </div>
+
+        <div class="card-base" style="border-left: 5px solid var(--secondary-color);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                <div style="font-weight:bold;">English</div>
+                <span style="background:var(--secondary-color); color:white; padding:2px 8px; border-radius:10px; font-size:11px;">45%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div>
+            <p style="font-size:12px; color:#777; margin-top:5px;">Needs practice in: Phonics</p>
+        </div>
+
+        <div class="card-base" style="border-left: 5px solid var(--success-color);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
+                <div style="font-weight:bold;">Bangla</div>
+                <span style="background:var(--success-color); color:white; padding:2px 8px; border-radius:10px; font-size:11px;">60%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 60%"></div></div>
+        </div>
+
+        <button class="back-button" onclick="showScreen('parent-dashboard')">← Back to Dashboard</button>
+    `;
+
+        // Inject HTML and show screen
+        dashboard.innerHTML = statsHTML;
+        showScreen("child-dashboard");
+      }
+
+      // 2. Open Library with Enroll Options
+      function openLibrary() {
+        const library = document.getElementById("course-library");
+
+        // Dynamic List of Courses
+        const libraryHTML = `
+        <button class="back-button" onclick="showScreen('parent-dashboard')">← Back</button>
+        <div class="section-title">Course Library 📚</div>
+        <p style="color:#777; font-size:13px; margin-bottom:15px;">Tap to view details or enroll Rahim.</p>
+
+        <div class="card-base">
+            <div style="display:flex; justify-content:space-between;">
+                <div class="course-title">Science (Class 2)</div>
+                <div style="font-size:24px;">🔬</div>
+            </div>
+            <p style="font-size:13px; color:#777;">Nature, Plants, and Animals.</p>
+            <div style="margin-top:10px; display:flex; gap:10px;">
+                <button class="btn-primary" style="padding:10px; font-size:14px; flex:1;" onclick="alert('✅ Rahim enrolled in Science!')">Enroll Now</button>
+                <button class="btn-secondary" style="padding:10px; font-size:14px;" onclick="showCoursePreview('science')">Preview</button>
+            </div>
+        </div>
+
+        <div class="card-base">
+            <div style="display:flex; justify-content:space-between;">
+                <div class="course-title">Art & Drawing</div>
+                <div style="font-size:24px;">🎨</div>
+            </div>
+            <p style="font-size:13px; color:#777;">Fun with colors and shapes.</p>
+            <div style="margin-top:10px; display:flex; gap:10px;">
+                <button class="btn-primary" style="padding:10px; font-size:14px; flex:1;" onclick="alert('✅ Rahim enrolled in Art!')">Enroll Now</button>
+                <button class="btn-secondary" style="padding:10px; font-size:14px;">Preview</button>
+            </div>
+        </div>
+
+        <div class="card-base">
+            <div style="display:flex; justify-content:space-between;">
+                <div class="course-title">General Knowledge</div>
+                <div style="font-size:24px;">🌍</div>
+            </div>
+            <p style="font-size:13px; color:#777;">World, flags, and basic facts.</p>
+            <div style="margin-top:10px; display:flex; gap:10px;">
+                <button class="btn-primary" style="padding:10px; font-size:14px; flex:1;" onclick="alert('✅ Rahim enrolled in GK!')">Enroll Now</button>
+                <button class="btn-secondary" style="padding:10px; font-size:14px;">Preview</button>
+            </div>
+        </div>
+    `;
+
+        library.innerHTML = libraryHTML;
+        showScreen("course-library");
+      }
+
+      // Bangla Game
+      function setupBanglaGame() {
+        document.getElementById("bangla-feedback").innerText = "";
+        const letters = document.querySelectorAll(
+          "#bangla-game .letter-bubble",
+        );
+        const slot = document.getElementById("bangla-slot");
+        const parent = document.querySelector("#bangla-game .letter-container");
+
+        letters.forEach((l) => {
+          parent.appendChild(l);
+          l.addEventListener("dragstart", (e) =>
+            e.dataTransfer.setData("text/plain", e.target.id),
+          );
+        });
+
+        slot.addEventListener("dragover", (e) => e.preventDefault());
+        slot.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const id = e.dataTransfer.getData("text/plain");
+          slot.appendChild(document.getElementById(id));
+        });
+      }
+      function checkBanglaWord() {
+        const slot = document.getElementById("bangla-slot");
+        const text = Array.from(slot.children)
+          .map((c) => c.innerText)
+          .join("");
+        const fb = document.getElementById("bangla-feedback");
+        if (text === "কলম") {
+          fb.innerText = "সঠিক উত্তর! (Correct!)";
+          fb.style.color = "#2e7d32";
+        } else {
+          fb.innerText = "ভুল হয়েছে, আবার চেষ্টা করো।";
+          fb.style.color = "red";
+        }
+      }
+
+      // --- QUIZ LOGIC (Expanded) ---
+      const quizData = {
+        math: [
+          { q: "What is 2 + 3?", opts: ["4", "5", "6", "7"], a: "5" },
+          { q: "10 - 4 = ?", opts: ["5", "6", "7", "8"], a: "6" },
+          {
+            q: "Shape of a ball?",
+            opts: ["Square", "Circle", "Triangle", "Box"],
+            a: "Circle",
+          },
+          { q: "Number after 19?", opts: ["18", "20", "21", "10"], a: "20" },
+          { q: "5 + 5 = ?", opts: ["10", "15", "5", "0"], a: "10" },
+        ],
+        english: [
+          { q: "A for...?", opts: ["Ball", "Cat", "Apple", "Dog"], a: "Apple" },
+          {
+            q: "Opposite of Hot?",
+            opts: ["Cold", "Warm", "Fire", "Red"],
+            a: "Cold",
+          },
+          { q: "Find the vowel", opts: ["B", "C", "A", "D"], a: "A" },
+          {
+            q: "Rhymes with CAT",
+            opts: ["Dog", "Bat", "Sun", "Pig"],
+            a: "Bat",
+          },
+          {
+            q: "Plural of Dog?",
+            opts: ["Dogs", "Doges", "Dogz", "Cat"],
+            a: "Dogs",
+          },
+        ],
+        science: [
+          {
+            q: "Fish live in?",
+            opts: ["Air", "Water", "Land", "Tree"],
+            a: "Water",
+          },
+          {
+            q: "Sun gives us?",
+            opts: ["Heat", "Ice", "Water", "Rain"],
+            a: "Heat",
+          },
+          {
+            q: "Cow eats?",
+            opts: ["Meat", "Grass", "Egg", "Fish"],
+            a: "Grass",
+          },
+          {
+            q: "We taste with?",
+            opts: ["Nose", "Tongue", "Ear", "Eye"],
+            a: "Tongue",
+          },
+          {
+            q: "Color of leaf?",
+            opts: ["Red", "Blue", "Green", "Pink"],
+            a: "Green",
+          },
+        ],
+        bangla: [
+          { q: "স্বরবর্ণ কয়টি?", opts: ["১০", "১১", "১২", "১৩"], a: "১১" },
+          {
+            q: "জাতীয় ফুল?",
+            opts: ["গোলাপ", "শাপলা", "জবা", "পদ্ম"],
+            a: "শাপলা",
+          },
+          { q: "ফলের রাজা?", opts: ["আম", "জাম", "কাঁঠাল", "লিচু"], a: "আম" },
+          { q: "আকাশের রঙ?", opts: ["লাল", "নীল", "কালো", "সাদা"], a: "নীল" },
+          { q: "ইলিশ কী?", opts: ["ফল", "ফুল", "মাছ", "পাখি"], a: "মাছ" },
+        ],
+      };
+
+      let currentQuiz = [];
+      let qIndex = 0;
+      let selectedAns = "";
+      let correctCount = 0;
+
+      function startQuiz(subject = "math") {
+        if (subject === "daily" || subject === "mixed") subject = "math";
+        currentQuiz = quizData[subject];
+        qIndex = 0;
+        correctCount = 0;
+        showScreen("quiz-screen");
+        loadQuizQuestion();
+      }
+
+      function loadQuizQuestion() {
+        if (qIndex >= currentQuiz.length) {
+          showFinalQuizResults();
+          return;
+        }
+        const q = currentQuiz[qIndex];
+        document.getElementById("quiz-question").innerText = q.q;
+        document.getElementById("quiz-progress").style.width =
+          (qIndex / currentQuiz.length) * 100 + "%";
+        document.getElementById("quiz-inline-feedback").innerText = "";
+        document.getElementById("check-btn").disabled = true;
+
+        const grid = document.getElementById("quiz-options");
+        grid.innerHTML = "";
+        q.opts.forEach((opt) => {
+          grid.innerHTML += `<div class="quiz-option-card" onclick="selectQuizOption(this, '${opt}')">${opt}</div>`;
+        });
+      }
+
+      function selectQuizOption(el, ans) {
+        document.querySelectorAll(".quiz-option-card").forEach((c) => {
+          c.style.borderColor = "#eee";
+          c.style.background = "white";
+        });
+        el.style.borderColor = "var(--secondary-color)";
+        el.style.background = "#e0f7fa";
+        selectedAns = ans;
+        document.getElementById("check-btn").disabled = false;
+      }
+
+      function checkQuizAnswer() {
+        const feedback = document.getElementById("quiz-inline-feedback");
+        const btn = document.getElementById("check-btn");
+
+        if (selectedAns === currentQuiz[qIndex].a) {
+          feedback.innerText = "✨ Correct! Awesome! ✨";
+          feedback.style.color = "#1dd1a1";
+          correctCount++;
+          btn.disabled = true;
+          setTimeout(() => {
+            qIndex++;
+            loadQuizQuestion();
+          }, 1000);
+        } else {
+          feedback.innerText = "🤔 Oops! Try again!";
+          feedback.style.color = "#ff6b6b";
+        }
+      }
+
+      function showFinalQuizResults() {
+        const percent = Math.round((correctCount / currentQuiz.length) * 100);
+        document.getElementById("feedback-message").innerText =
+          percent >= 80 ? "Super Star! 🌟" : "Good Job!";
+        document.getElementById("feedback-submessage").innerText =
+          `You scored ${percent}% (${correctCount}/${currentQuiz.length})`;
+        showScreen("feedback-screen");
+      }
+
+      function exitQuiz() {
+        showScreen("student-dashboard");
+      }
+
+      // Chat
+      function sendMessage() {
+        const input = document.getElementById("chat-input");
+        if (input.value.trim() === "") return;
+        const container = document.getElementById("chat-messages");
+        container.innerHTML += `<div class="chat-message user"><div class="chat-bubble" style="background:var(--secondary-color); color:white;">${input.value}</div></div>`;
+        setTimeout(() => {
+          let response = "That's super interesting! Tell me more.";
+          const lower = input.value.toLowerCase();
+          if (lower.includes("math")) response = "Math is fun! What is 10 + 5?";
+          if (lower.includes("english"))
+            response = "Can you spell the word 'APPLE'?";
+
+          container.innerHTML += `<div class="chat-message ai"><div class="chat-avatar">🤖</div><div class="chat-bubble">${response}</div></div>`;
+          container.scrollTop = container.scrollHeight;
+        }, 1000);
+        input.value = "";
+      }
+      function handleChatEnter(e) {
+        if (e.key === "Enter") sendMessage();
+      }
+      function startVoiceChat() {
+        alert("🎤 Voice Chat activated!");
+      }
+    </script>
+  </body>
+</html>
